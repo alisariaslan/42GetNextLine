@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 21:31:18 by msariasl          #+#    #+#             */
-/*   Updated: 2022/11/29 22:39:42 by ali              ###   ########.fr       */
+/*   Created: 2022/02/28 14:13:33 by mkucukku          #+#    #+#             */
+/*   Updated: 2022/11/29 22:38:55 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
 	size_t	length;
 
 	length = 0;
-	while (*s != 0)
-	{
+	if (!s)
+		return (0);
+	while (s[length])
 		length++;
-		s++;
-	}
 	return (length);
 }
 
@@ -32,13 +31,13 @@ char	*ft_strchr(char *s, int c)
 	i = 0;
 	if (!s)
 		return (0);
-	if (c == 0)
+	if (c == '\0')
 		return ((char *)&s[ft_strlen(s)]);
-	while (s[i] != 0)
+	while (s[i])
 	{
 		if (s[i] == (char) c)
 			return ((char *)&s[i]);
-		i++;
+	i++;
 	}
 	return (0);
 }
@@ -110,7 +109,7 @@ char	*ft_new_str(char *str)
 		i++;
 	if (!str[i])
 	{
-		free(str);
+		free (str);
 		return (NULL);
 	}
 	custom_str = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 1));
@@ -121,6 +120,6 @@ char	*ft_new_str(char *str)
 	while (str[i])
 		custom_str[j++] = str[i++];
 	custom_str[j] = '\0';
-	free(str);
+	free (str);
 	return (custom_str);
 }
