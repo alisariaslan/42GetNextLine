@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 21:31:18 by msariasl          #+#    #+#             */
-/*   Updated: 2022/11/29 22:39:42 by ali              ###   ########.fr       */
+/*   Updated: 2022/12/01 16:11:54 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_strjoin(char *str, char *buff)
 {
 	size_t	i;
 	size_t	j;
-	char	*custom_str;
+	char	*cstm_str;
 
 	if (!str)
 	{
@@ -56,19 +56,19 @@ char	*ft_strjoin(char *str, char *buff)
 	}
 	if (!str || !buff)
 		return (NULL);
-	custom_str = malloc(sizeof(char) * ((ft_strlen(str) + ft_strlen(buff)) + 1));
-	if (custom_str == NULL)
+	cstm_str = malloc(sizeof(char) * ((ft_strlen(str) + ft_strlen(buff)) + 1));
+	if (cstm_str == NULL)
 		return (NULL);
 	i = -1;
 	j = 0;
 	if (str)
 		while (str[++i] != '\0')
-			custom_str[i] = str[i];
+			cstm_str[i] = str[i];
 	while (buff[j] != '\0')
-		custom_str[i++] = buff[j++];
-	custom_str[ft_strlen(str) + ft_strlen(buff)] = '\0';
+		cstm_str[i++] = buff[j++];
+	cstm_str[ft_strlen(str) + ft_strlen(buff)] = '\0';
 	free(str);
-	return (custom_str);
+	return (cstm_str);
 }
 
 char	*ft_get_line(char *str)
