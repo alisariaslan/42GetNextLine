@@ -6,7 +6,7 @@
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 21:31:18 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/01 16:11:54 by msariasl         ###   ########.fr       */
+/*   Updated: 2022/12/02 13:03:24 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strchr(char *s, int c)
 		return ((char *)&s[ft_strlen(s)]);
 	while (s[i] != 0)
 	{
-		if (s[i] == (char) c)
+		if (s[i] == (char)c)
 			return ((char *)&s[i]);
 		i++;
 	}
@@ -51,12 +51,12 @@ char	*ft_strjoin(char *str, char *buff)
 
 	if (!str)
 	{
-		str = (char *)malloc(1 * sizeof(char));
+		str = malloc(sizeof(char));
 		str[0] = '\0';
 	}
 	if (!str || !buff)
 		return (NULL);
-	cstm_str = malloc(sizeof(char) * ((ft_strlen(str) + ft_strlen(buff)) + 1));
+	cstm_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(buff)) + 1);
 	if (cstm_str == NULL)
 		return (NULL);
 	i = -1;
@@ -81,7 +81,7 @@ char	*ft_get_line(char *str)
 		return (NULL);
 	while (str[i] && str[i] != '\n')
 		i++;
-	custom_str = (char *)malloc(sizeof(char) * (i + 2));
+	custom_str = malloc(sizeof(char) * i + 1);
 	if (!custom_str)
 		return (NULL);
 	i = 0;
@@ -113,7 +113,7 @@ char	*ft_new_str(char *str)
 		free(str);
 		return (NULL);
 	}
-	custom_str = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	custom_str = malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (!custom_str)
 		return (NULL);
 	i++;

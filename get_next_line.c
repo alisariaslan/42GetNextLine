@@ -6,7 +6,7 @@
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 21:31:16 by msariasl          #+#    #+#             */
-/*   Updated: 2022/11/21 21:31:27 by msariasl         ###   ########.fr       */
+/*   Updated: 2022/12/02 12:55:45 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_next_read(int fd, char *str)
 	char	*buff;
 	int		rbytes;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buff)
 		return (NULL);
 	rbytes = 1;

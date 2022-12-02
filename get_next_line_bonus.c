@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:00:30 by ali               #+#    #+#             */
-/*   Updated: 2022/11/29 22:03:26 by ali              ###   ########.fr       */
+/*   Updated: 2022/12/02 13:02:06 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_next_read(int fd, char *str)
 	char	*buff;
 	int		rd_bytes;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = malloc(sizeof(char) * (BUFFER_SIZE) + 1);
 	if (!buff)
 		return (NULL);
 	rd_bytes = 1;

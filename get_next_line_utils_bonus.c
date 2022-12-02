@@ -6,7 +6,7 @@
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 14:13:33 by mkucukku          #+#    #+#             */
-/*   Updated: 2022/12/01 16:12:16 by msariasl         ###   ########.fr       */
+/*   Updated: 2022/12/02 13:01:43 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_strjoin(char *str, char *buff)
 	}
 	if (!str || !buff)
 		return (NULL);
-	cstm_str = malloc(sizeof(char) * ((ft_strlen(str) + ft_strlen(buff)) + 1));
+	cstm_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(buff)) + 1);
 	if (cstm_str == NULL)
 		return (NULL);
 	i = -1;
@@ -80,7 +80,7 @@ char	*ft_get_line(char *str)
 		return (NULL);
 	while (str[i] && str[i] != '\n')
 		i++;
-	custom_str = (char *)malloc(sizeof(char) * (i + 2));
+	custom_str = malloc(sizeof(char) * i + 1);
 	if (!custom_str)
 		return (NULL);
 	i = 0;
@@ -112,7 +112,7 @@ char	*ft_new_str(char *str)
 		free (str);
 		return (NULL);
 	}
-	custom_str = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	custom_str = malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (!custom_str)
 		return (NULL);
 	i++;
