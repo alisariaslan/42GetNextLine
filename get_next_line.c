@@ -5,48 +5,104 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 21:31:16 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/02 12:55:45 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/09 15:30:56 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/09 15:31:17 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_read(int fd, char *str)
+static char	*parse(char *s, char c)
 {
-	char	*buff;
-	int		rbytes;
+	char	*str;
+	int		i;
+	int		j;
 
-	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buff)
-		return (NULL);
-	rbytes = 1;
-	while (!ft_strchr(str, '\n') && rbytes != 0)
+	i = 0;
+	j = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	if (!s[i])
 	{
-		rbytes = read(fd, buff, BUFFER_SIZE);
-		if (rbytes == -1)
+		free(s);
+		return (NULL);
+	}
+	str = (char *)malloc((ft_strlen(s) - i) + 1);
+	if (!str)
+		return (NULL);
+	i++;
+	while (s[i])
+		str[j++] = s[i++];
+	str[j] = '\0';
+	free(s);
+	return (str);
+}
+
+static char	*new_line(char *s, char c)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (!s[i])
+		return (NULL);
+	while (s[i] != '\0' && s[i] != c)
+		i++;
+	str = (char *)malloc(sizeof(char) * (i + 2));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] && s[i] != c)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	if (s[i] == c)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+static char	*next_line(int fd, char *s)
+{
+	char	*str;
+	int		i;
+
+	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!str)
+		return (NULL);
+	i = 1;
+	while (!ft_strchr(s, '\n') && i != 0)
+	{
+		i = read(fd, str, BUFFER_SIZE);
+		if (i == -1)
 		{
-			free(buff);
+			free(str);
 			return (NULL);
 		}
-		buff[rbytes] = '\0';
-		str = ft_strjoin(str, buff);
+		str[i] = '\0';
+		s = ft_strjoin(s, str);
 	}
-	free(buff);
-	return (str);
+	free(str);
+	return (s);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*line;
-	static char	*str;
+	char		*str;
+	static char	*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	str = get_next_read(fd, str);
-	if (!str)
 		return (NULL);
-	line = ft_get_line(str);
-	str = ft_new_str(str);
-	return (line);
+	line = next_line(fd, line);
+	if (line)
+	{
+		str = new_line(line, '\n');
+		line = parse(line, '\n');
+		return (str);
+	}
+	return (NULL);
 }

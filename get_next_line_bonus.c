@@ -5,48 +5,104 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/29 22:00:30 by ali               #+#    #+#             */
-/*   Updated: 2022/12/02 13:02:06 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/09 15:30:21 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/09 15:31:27 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*get_next_read(int fd, char *str)
+static char	*parse(char *s, char c)
 {
-	char	*buff;
-	int		rd_bytes;
+	char	*str;
+	int		i;
+	int		j;
 
-	buff = malloc(sizeof(char) * (BUFFER_SIZE) + 1);
-	if (!buff)
-		return (NULL);
-	rd_bytes = 1;
-	while (!ft_strchr(str, '\n') && rd_bytes != 0)
+	i = 0;
+	j = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	if (!s[i])
 	{
-		rd_bytes = read(fd, buff, BUFFER_SIZE);
-		if (rd_bytes == -1)
+		free(s);
+		return (NULL);
+	}
+	str = (char *)malloc(1 * (ft_strlen(s) - i) + 1);
+	if (!str)
+		return (NULL);
+	i++;
+	while (s[i])
+		str[j++] = s[i++];
+	str[j] = '\0';
+	free(s);
+	return (str);
+}
+
+static char	*new_line(char *s, char c)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (!s[i])
+		return (NULL);
+	while (s[i] != '\0' && s[i] != c)
+		i++;
+	str = (char *)malloc(sizeof(char) * (i + 2));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] && s[i] != c)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	if (s[i] == c)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+static char	*next_line(int fd, char *line)
+{
+	char	*str;
+	int		i;
+
+	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!str)
+		return (NULL);
+	i = 1;
+	while (!ft_strchr(line, '\n') && i != 0)
+	{
+		i = read(fd, str, BUFFER_SIZE);
+		if (i == -1)
 		{
-			free (buff);
+			free(str);
 			return (NULL);
 		}
-		buff[rd_bytes] = '\0';
-		str = ft_strjoin(str, buff);
+		str[i] = '\0';
+		line = ft_strjoin(line, str);
 	}
-	free (buff);
-	return (str);
+	free(str);
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*line;
-	static char	*str[4096];
+	char		*str;
+	static char	*line[4096];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	str[fd] = get_next_read(fd, str[fd]);
-	if (!str[fd])
 		return (NULL);
-	line = ft_get_line(str[fd]);
-	str[fd] = ft_new_str(str[fd]);
-	return (line);
+	line[fd] = next_line(fd, line[fd]);
+	if (line[fd])
+	{
+		str = new_line(line[fd], '\n');
+		line[fd] = parse(line[fd], '\n');
+		return (str);
+	}
+	return (NULL);
 }

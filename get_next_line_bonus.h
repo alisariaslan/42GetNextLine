@@ -3,31 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/29 21:55:22 by ali               #+#    #+#             */
-/*   Updated: 2022/11/29 22:00:06 by ali              ###   ########.fr       */
+/*   Created: 2022/12/09 15:30:26 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/09 15:40:10 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <unistd.h>
-
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 5
 # endif
 
-char	*get_next_line(int fd);
-char	*get_next_read(int fd, char *str);
-char	*ft_strchr(char *s, int c);
-char	*ft_strjoin(char *str, char *buff);
-size_t	ft_strlen(const char *s);
-char	*ft_get_line(char *str);
-char	*ft_new_str(char *str);
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
 
+char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *s, int c);
 #endif

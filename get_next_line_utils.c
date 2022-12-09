@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 21:31:18 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/02 13:03:24 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/09 15:30:50 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/09 15:34:09 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,113 +14,46 @@
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	length;
+	size_t	size;
 
-	length = 0;
+	size = 0;
 	while (*s != 0)
 	{
-		length++;
+		size++;
 		s++;
 	}
-	return (length);
+	return (size);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	i;
+	char	*new;
+	size_t	len;
 
-	i = 0;
-	if (!s)
-		return (0);
-	if (c == 0)
-		return ((char *)&s[ft_strlen(s)]);
-	while (s[i] != 0)
+	len = ft_strlen(s1) + ft_strlen(s2);
+	new = (char *) malloc(sizeof(char) * len + 1);
+	if (!new)
+		return (NULL);
+	while (*s1 != 0)
 	{
-		if (s[i] == (char)c)
-			return ((char *)&s[i]);
-		i++;
+		*new = *s1;
+		new++;
+		s1++;
 	}
-	return (0);
+	while (*s2 != 0)
+	{
+		*new = *s2;
+		new++;
+		s2++;
+	}
+	*new = 0;
+	return (new - len);
 }
 
-char	*ft_strjoin(char *str, char *buff)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
-	size_t	j;
-	char	*cstm_str;
-
-	if (!str)
-	{
-		str = malloc(sizeof(char));
-		str[0] = '\0';
-	}
-	if (!str || !buff)
-		return (NULL);
-	cstm_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(buff)) + 1);
-	if (cstm_str == NULL)
-		return (NULL);
-	i = -1;
-	j = 0;
-	if (str)
-		while (str[++i] != '\0')
-			cstm_str[i] = str[i];
-	while (buff[j] != '\0')
-		cstm_str[i++] = buff[j++];
-	cstm_str[ft_strlen(str) + ft_strlen(buff)] = '\0';
-	free(str);
-	return (cstm_str);
-}
-
-char	*ft_get_line(char *str)
-{
-	int		i;
-	char	*custom_str;
-
-	i = 0;
-	if (!str[i])
-		return (NULL);
-	while (str[i] && str[i] != '\n')
-		i++;
-	custom_str = malloc(sizeof(char) * i + 1);
-	if (!custom_str)
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
-	{
-		custom_str[i] = str[i];
-		i++;
-	}
-	if (str[i] == '\n')
-	{
-		custom_str[i] = str[i];
-		i++;
-	}
-	custom_str[i] = '\0';
-	return (custom_str);
-}
-
-char	*ft_new_str(char *str)
-{
-	int		i;
-	int		j;
-	char	*custom_str;
-
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (!str[i])
-	{
-		free(str);
-		return (NULL);
-	}
-	custom_str = malloc(sizeof(char) * ft_strlen(str) + 1);
-	if (!custom_str)
-		return (NULL);
-	i++;
-	j = 0;
-	while (str[i])
-		custom_str[j++] = str[i++];
-	custom_str[j] = '\0';
-	free(str);
-	return (custom_str);
+	while (*s != (char)c)
+		if (!*s++)
+			return (0);
+	return ((char *)s);
 }
