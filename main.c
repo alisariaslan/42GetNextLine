@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 13:11:11 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/15 13:15:07 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/15 13:12:29 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/15 13:15:30 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#include "get_next_line.h"
+#include "stdio.h"
+#include "fcntl.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
-# endif
-
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-char	*get_next_line(int fd);
-int		ft_strlen(char *s);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
-
-#endif
+int main()
+{
+	int fd = open("za.txt",O_RDONLY,0777);
+	char *str = get_next_line(fd);
+	printf("\n%s\n",str);
+}

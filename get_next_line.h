@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 15:31:06 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/09 15:34:21 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/15 13:11:30 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/15 13:19:23 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_strlen(char *s);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 #endif

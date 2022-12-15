@@ -5,55 +5,62 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 15:30:40 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/09 15:39:42 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/15 13:11:16 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/15 13:12:02 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(char *s)
 {
-	size_t	size;
+	int	i;
 
-	size = 0;
-	while (*s != 0)
-	{
-		size++;
-		s++;
-	}
-	return (size);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*new;
-	size_t	len;
+	char	*str;
+	int		i;
+	int		j;
 
-	len = ft_strlen(s1) + ft_strlen(s2);
-	new = (char *) malloc(sizeof(char) * len + 1);
-	if (!new)
+	i = -1;
+	j = 0;
+	if (!s1)
+	{
+		s1 = (char *)malloc(sizeof(char) * 1);
+		s1[0] = '\0';
+	}
+	if (!s2)
 		return (NULL);
-	while (*s1 != 0)
-	{
-		*new = *s1;
-		new++;
-		s1++;
-	}
-	while (*s2 != 0)
-	{
-		*new = *s2;
-		new++;
-		s2++;
-	}
-	*new = 0;
-	return (new - len);
+	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+		return (NULL);
+	while (s1[++i] != '\0')
+		str[i] = s1[i];
+	while (s2[j])
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	free(s1);
+	return (str);
 }
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s != (char)c)
-		if (!*s++)
-			return (0);
-	return ((char *)s);
+	int	i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i++;
+	}
+	return (NULL);
 }
