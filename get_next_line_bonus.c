@@ -6,7 +6,7 @@
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:11:07 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/15 13:11:08 by msariasl         ###   ########.fr       */
+/*   Updated: 2022/12/19 20:22:42 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,3 @@ char	*get_next_line(int fd)
 	}
 	return (NULL);
 }
-/* int main()
-{
-	int i = open("asd.text",O_RDONLY);
-	int a = 0;
-	while (a < 1)
-	{
-		get_next_line(i);
-		a++;
-	}
-}
- */
