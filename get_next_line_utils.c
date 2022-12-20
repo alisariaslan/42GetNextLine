@@ -5,62 +5,90 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 13:11:21 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/15 13:11:23 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/20 22:05:37 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/20 22:05:39 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *s)
+int	ft_strlen(char *str)
 {
+	int	counter;
+
+	counter = 0;
+	while (str[counter] != '\0')
+		counter++;
+	return (counter);
+}
+
+int	newline_counter(char *raw_str)
+{
+	int	counter;
+
+	counter = 0;
+	while (raw_str[counter] != '\n' && raw_str[counter] != '\0')
+		counter++;
+	return (counter);
+}
+
+int	count_after_nl(char *raw_str)
+{
+	int	after_len;
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	after_len = 0;
+	while (raw_str[i] != '\n' && raw_str[i] != '\0')
 		i++;
-	return (i);
+	i++;
+	while (raw_str[i] != '\0' && raw_str[i++] != '\n')
+		after_len++;
+	return (after_len);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *left_str, char *buff)
 {
+	size_t	i;
+	size_t	j;
 	char	*str;
-	int		i;
-	int		j;
 
+	if (!left_str)
+	{
+		left_str = (char *)malloc(1 * sizeof(char));
+		left_str[0] = '\0';
+	}
+	if (!left_str || !buff)
+		return (NULL);
+	str = malloc(sizeof(char) * ((ft_strlen(left_str) + ft_strlen(buff)) + 1));
+	if (str == NULL)
+		return (NULL);
 	i = -1;
 	j = 0;
-	if (!s1)
-	{
-		s1 = (char *)malloc(sizeof(char) * 1);
-		s1[0] = '\0';
-	}
-	if (!s2)
-		return (NULL);
-	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
-	while (s1[++i] != '\0')
-		str[i] = s1[i];
-	while (s2[j])
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	free(s1);
+	if (left_str)
+		while (left_str[++i] != '\0')
+			str[i] = left_str[i];
+	while (buff[j] != '\0')
+		str[i++] = buff[j++];
+	str[ft_strlen(left_str) + ft_strlen(buff)] = '\0';
+	free(left_str);
 	return (str);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
+	i = 0;
 	if (!s)
 		return (0);
-	i = 0;
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
 	while (s[i] != '\0')
 	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }

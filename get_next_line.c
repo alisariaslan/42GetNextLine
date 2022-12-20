@@ -5,104 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msariasl <msariasl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 13:11:25 by msariasl          #+#    #+#             */
-/*   Updated: 2022/12/15 13:20:47 by msariasl         ###   ########.fr       */
+/*   Created: 2022/12/20 22:05:20 by msariasl          #+#    #+#             */
+/*   Updated: 2022/12/20 22:09:51 by msariasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*parse(char *s, char c)
+static char	*get_raw_line(int fd, char *raw_str)
 {
-	char	*str;
-	int		i;
-	int		j;
+	char	*buff;
+	int		byte;
 
-	i = 0;
-	j = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	if (!s[i])
+	byte = 1;
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buff)
+		return (NULL);
+	while (!ft_strchr(raw_str, '\n') && byte != 0)
 	{
-		free(s);
-		return (NULL);
-	}
-	str = (char *)malloc((ft_strlen(s) - i) + 1);
-	if (!str)
-		return (NULL);
-	i++;
-	while (s[i])
-		str[j++] = s[i++];
-	str[j] = '\0';
-	free(s);
-	return (str);
-}
-
-static char	*new_line(char *s, char c)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	if (!s[i])
-		return (NULL);
-	while (s[i] != '\0' && s[i] != c)
-		i++;
-	str = (char *)malloc(sizeof(char) * (i + 2));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i] && s[i] != c)
-	{
-		str[i] = s[i];
-		i++;
-	}
-	if (s[i] == c)
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-static char	*next_line(int fd, char *s)
-{
-	char	*str;
-	int		i;
-
-	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!str)
-		return (NULL);
-	i = 1;
-	while (!ft_strchr(s, '\n') && i != 0)
-	{
-		i = read(fd, str, BUFFER_SIZE);
-		if (i == -1)
+		byte = read(fd, buff, BUFFER_SIZE);
+		if (byte == -1)
 		{
-			free(str);
+			free(buff);
 			return (NULL);
 		}
-		str[i] = '\0';
-		s = ft_strjoin(s, str);
+		buff[byte] = '\0';
+		raw_str = ft_strjoin(raw_str, buff);
 	}
+	free(buff);
+	return (raw_str);
+}
+
+static char	*get_refined_str(char *raw_str)
+{
+	char	*ret;
+	int		after_newline;
+	int		i;
+
+	if (!raw_str || raw_str[0] == '\0')
+		return (NULL);
+	i = 0;
+	after_newline = newline_counter(raw_str);
+	ret = malloc(sizeof(char) * (after_newline + 2));
+	if (!ret)
+		return (NULL);
+	while (raw_str[i] != '\0' && raw_str[i] != '\n')
+	{
+		ret[i] = raw_str[i];
+		i++;
+	}
+	if (raw_str[i] == '\n')
+	{
+		ret[i] = raw_str[i];
+		i++;
+	}
+	ret[i] = '\0';
+	return (ret);
+}
+
+static char	*get_new_raw_str(char *str)
+{
+	int		i;
+	int		s;
+	char	*rest;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (str[i] != '\n' && str[i])
+		i++;
+	if (str[i] == '\0')
+	{
+		free(str);
+		return (NULL);
+	}
+	rest = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!rest)
+		return (NULL);
+	i++;
+	s = 0;
+	while (str[i])
+		rest[s++] = str[i++];
+	rest[s] = '\0';
 	free(str);
-	return (s);
+	return (rest);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*str;
-	static char	*line;
+	static char	*raw_str;
+	char		*refined_str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = next_line(fd, line);
-	if (line)
-	{
-		str = new_line(line, '\n');
-		line = parse(line, '\n');
-		return (str);
-	}
-	return (NULL);
+	raw_str = get_raw_line(fd, raw_str);
+	if (!raw_str)
+		return (NULL);
+	refined_str = get_refined_str(raw_str);
+	raw_str = get_new_raw_str(raw_str);
+	return (refined_str);
 }
